@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Adu 💕 - From Shivu</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Background Music - Put your audio file as "birthday-song.mp3" in same folder -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="./birthday-song.mp3" type="audio/mpeg">
+  </audio>
+  
+  <script>
+    // Global music controller
+    window.bgMusicController = {
+      music: null,
+      isUserInteracted: false,
+      
+      init: function() {
+        this.music = document.getElementById('bgMusic');
+        this.music.volume = 0.5; // 50% volume
+      },
+      
+      play: function() {
+        if (this.music && this.isUserInteracted) {
+          this.music.play().catch(e => console.log('Audio play prevented'));
+        }
+      },
+      
+      pause: function() {
+        if (this.music) {
+          this.music.pause();
+        }
+      },
+      
+      startOnInteraction: function() {
+        if (!this.isUserInteracted) {
+          this.isUserInteracted = true;
+          this.play();
+        }
+      }
+    };
+    
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      window.bgMusicController.init();
+      
+      // Start music on first user interaction (required by browsers)
+      document.addEventListener('click', function() {
+        window.bgMusicController.startOnInteraction();
+      }, { once: false });
+      
+      document.addEventListener('touchstart', function() {
+        window.bgMusicController.startOnInteraction();
+      }, { once: false });
+    });
+    
+    // Setup video observers after React renders
+    function setupVideoObservers() {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        // When video starts playing - pause background music
+        video.addEventListener('play', function() {
+          window.bgMusicController.pause();
+        });
+        
+        // When video is paused - resume background music
+        video.addEventListener('pause', function() {
+          window.bgMusicController.play();
+        });
+        
+        // When video ends - resume background music
+        video.addEventListener('ended', function() {
+          window.bgMusicController.play();
+        });
+      });
+    }
+    
+    // Check for videos periodically (since React renders them dynamically)
+    setInterval(function() {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        if (!video.hasAttribute('data-music-setup')) {
+          video.setAttribute('data-music-setup', 'true');
+          
+          video.addEventListener('play', function() {
+            window.bgMusicController.pause();
+          });
+          
+          video.addEventListener('pause', function() {
+            window.bgMusicController.play();
+          });
+          
+          video.addEventListener('ended', function() {
+            window.bgMusicController.play();
+          });
+        }
+      });
+    }, 1000);
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    @keyframes float-up {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.15); }
+    }
+    
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(244, 63, 94, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(244, 63, 94, 0.8); }
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+    
+    @keyframes flicker {
+      0%, 100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+      25% { transform: scaleY(1.1) scaleX(0.9); opacity: 0.9; }
+      50% { transform: scaleY(0.9) scaleX(1.1); opacity: 1; }
+      75% { transform: scaleY(1.05) scaleX(0.95); opacity: 0.95; }
+    }
+    
+    @keyframes smoke {
+      0% { opacity: 0.5; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-30px) scale(2); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.5), 0 0 40px rgba(255, 105, 180, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(255, 105, 180, 0.8), 0 0 80px rgba(255, 105, 180, 0.5); }
+    }
+    
+    .animate-float-up { animation: float-up linear infinite; }
+    .animate-sparkle { animation: sparkle 1.5s ease-in-out forwards; }
+    .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+    .animate-confetti { animation: confetti 4s ease-out forwards; }
+    .animate-heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
+    .animate-glow { animation: glow 2s ease-in-out infinite; }
+    .animate-fade-in { animation: fade-in-up 0.5s ease-out forwards; }
+    .animate-twinkle { animation: twinkle 2s ease-in-out infinite; }
+    .animate-flicker { animation: flicker 0.5s ease-in-out infinite; }
+    .animate-smoke { animation: smoke 2s ease-out forwards; }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-glow-pulse { animation: glow-pulse 2s ease-in-out infinite; }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #e11d48, #db2777, #e11d48);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-dancing { font-family: 'Dancing Script', cursive; }
+    .font-cormorant { font-family: 'Cormorant Garamond', serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // Floating Hearts Background Component
+    const FloatingHearts = () => {
+      const hearts = Array.from({ length: 30 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 10,
+        duration: 8 + Math.random() * 8,
+        size: 12 + Math.random() * 24,
+        opacity: 0.3 + Math.random() * 0.4
+      }));
+
+      return (
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+          {hearts.map(heart => (
+            <div
+              key={heart.id}
+              className="absolute animate-float-up"
+              style={{
+                left: `${heart.left}%`,
+                bottom: '-50px',
+                animationDelay: `${heart.delay}s`,
+                animationDuration: `${heart.duration}s`,
+                fontSize: `${heart.size}px`,
+                opacity: heart.opacity
+              }}
+            >
+              💕
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    // Sparkle Effect Component
+    const Sparkles = () => {
+      const [sparkles, setSparkles] = useState([]);
+      
+      useEffect(() => {
+        const interval = setInterval(() => {
+          const newSparkle = {
+            id: Date.now(),
+            left: Math.random() * 100,
+            top: Math.random() * 100,
+            size: 4 + Math.random() * 8
+          };
+          setSparkles(prev => [...prev.slice(-20), newSparkle]);
+        }, 300);
+        
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <div className="fixed inset-0 pointer-events-none z-10">
+          {sparkles.map(sparkle => (
+            <div
+              key={sparkle.id}
+              className="absolute animate-sparkle"
+              style={{
+                left: `${sparkle.left}%`,
+                top: `${sparkle.top}%`,
+                width: sparkle.size,
+                height: sparkle.size
+              }}
+            >
+              ✨
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    // Beautiful Birthday Cake with Candles Component
+    const BirthdayCake = ({ onBlowCandles }) => {
+      const [candlesLit, setCandlesLit] = useState(true);
+      const [isBlowing, setIsBlowing] = useState(false);
+      const [showWish, setShowWish] = useState(false);
+      const [blowProgress, setBlowProgress] = useState(0);
+
+      const handleBlow = () => {
+        if (!candlesLit) return;
+        
+        setIsBlowing(true);
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 20;
+          setBlowProgress(progress);
+          if (progress >= 100) {
+            clearInterval(interval);
+            setCandlesLit(false);
+            setIsBlowing(false);
+            setShowWish(true);
+            setTimeout(() => {
+              onBlowCandles();
+            }, 3000);
+          }
+        }, 100);
+      };
+
+      return (
+        <div className="flex flex-col items-center">
+          {/* Beautiful SVG Cake */}
+          <svg viewBox="0 0 300 280" className="w-80 h-auto drop-shadow-2xl" style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }}>
+            <defs>
+              {/* Gradients */}
+              <linearGradient id="cakeTop" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#fff5f5"/>
+                <stop offset="50%" stopColor="#fecdd3"/>
+                <stop offset="100%" stopColor="#fda4af"/>
+              </linearGradient>
+              <linearGradient id="cakeMiddle" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#f9a8d4"/>
+                <stop offset="50%" stopColor="#f472b6"/>
+                <stop offset="100%" stopColor="#ec4899"/>
+              </linearGradient>
+              <linearGradient id="cakeBottom" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#c084fc"/>
+                <stop offset="50%" stopColor="#a855f7"/>
+                <stop offset="100%" stopColor="#9333ea"/>
+              </linearGradient>
+              <linearGradient id="cream" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff"/>
+                <stop offset="100%" stopColor="#fce7f3"/>
+              </linearGradient>
+              <linearGradient id="plate" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#fafafa"/>
+                <stop offset="50%" stopColor="#e5e5e5"/>
+                <stop offset="100%" stopColor="#a3a3a3"/>
+              </linearGradient>
+              <linearGradient id="candle" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#fef3c7"/>
+                <stop offset="50%" stopColor="#fde68a"/>
+                <stop offset="100%" stopColor="#fcd34d"/>
+              </linearGradient>
+              <linearGradient id="flame" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stopColor="#f97316"/>
+                <stop offset="40%" stopColor="#fbbf24"/>
+                <stop offset="80%" stopColor="#fef3c7"/>
+                <stop offset="100%" stopColor="#ffffff"/>
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <filter id="innerShadow">
+                <feOffset dx="0" dy="2"/>
+                <feGaussianBlur stdDeviation="2"/>
+                <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3 0"/>
+                <feBlend in2="SourceGraphic"/>
+              </filter>
+            </defs>
+            
+            {/* Plate */}
+            <ellipse cx="150" cy="265" rx="140" ry="15" fill="url(#plate)" />
+            <ellipse cx="150" cy="262" rx="130" ry="12" fill="#fafafa" opacity="0.5"/>
+            
+            {/* Bottom Layer - Purple */}
+            <path d="M40 200 Q40 180 60 180 L240 180 Q260 180 260 200 L260 250 Q260 260 240 260 L60 260 Q40 260 40 250 Z" fill="url(#cakeBottom)" filter="url(#innerShadow)"/>
+            {/* Bottom layer decorations - dots */}
+            {[70, 110, 150, 190, 230].map((x, i) => (
+              <circle key={`dot1-${i}`} cx={x} cy="220" r="4" fill="#fce7f3" opacity="0.8"/>
+            ))}
+            {[90, 130, 170, 210].map((x, i) => (
+              <circle key={`dot2-${i}`} cx={x} cy="240" r="3" fill="#fce7f3" opacity="0.6"/>
+            ))}
+            
+            {/* Middle Layer - Pink */}
+            <path d="M55 130 Q55 115 75 115 L225 115 Q245 115 245 130 L245 185 Q245 190 225 190 L75 190 Q55 190 55 185 Z" fill="url(#cakeMiddle)" filter="url(#innerShadow)"/>
+            {/* Cream drips on middle layer */}
+            {[70, 95, 120, 145, 170, 195, 220].map((x, i) => (
+              <ellipse key={`drip1-${i}`} cx={x} cy="190" rx="8" ry={12 + (i % 3) * 4} fill="url(#cream)"/>
+            ))}
+            {/* Heart decorations */}
+            <text x="90" y="160" fontSize="16" fill="#fce7f3">♥</text>
+            <text x="150" y="155" fontSize="20" fill="#fff">♥</text>
+            <text x="200" y="160" fontSize="16" fill="#fce7f3">♥</text>
+            
+            {/* Top Layer - Cream/Pink */}
+            <ellipse cx="150" cy="115" rx="85" ry="12" fill="#fda4af"/>
+            <path d="M70 70 Q70 55 90 55 L210 55 Q230 55 230 70 L230 115 Q230 125 210 125 L90 125 Q70 125 70 115 Z" fill="url(#cakeTop)" filter="url(#innerShadow)"/>
+            {/* Cream drips on top layer */}
+            {[85, 115, 145, 175, 205].map((x, i) => (
+              <ellipse key={`drip2-${i}`} cx={x} cy="125" rx="6" ry={8 + (i % 2) * 5} fill="url(#cream)"/>
+            ))}
+            
+            {/* Top surface */}
+            <ellipse cx="150" cy="55" rx="80" ry="10" fill="#fff5f5"/>
+            <ellipse cx="150" cy="55" rx="70" ry="8" fill="#fce7f3" opacity="0.5"/>
+            
+            {/* Strawberries on top */}
+            <g transform="translate(100, 35)">
+              <ellipse cx="0" cy="8" rx="8" ry="10" fill="#ef4444"/>
+              <ellipse cx="0" cy="5" rx="6" ry="4" fill="#fca5a5" opacity="0.4"/>
+              <path d="M-3 0 Q0 -5 3 0" fill="#22c55e"/>
+            </g>
+            <g transform="translate(150, 30)">
+              <ellipse cx="0" cy="8" rx="10" ry="12" fill="#dc2626"/>
+              <ellipse cx="0" cy="5" rx="7" ry="5" fill="#fca5a5" opacity="0.4"/>
+              <path d="M-4 0 Q0 -6 4 0" fill="#22c55e"/>
+            </g>
+            <g transform="translate(200, 35)">
+              <ellipse cx="0" cy="8" rx="8" ry="10" fill="#ef4444"/>
+              <ellipse cx="0" cy="5" rx="6" ry="4" fill="#fca5a5" opacity="0.4"/>
+              <path d="M-3 0 Q0 -5 3 0" fill="#22c55e"/>
+            </g>
+            
+            {/* Candles */}
+            {[100, 130, 150, 170, 200].map((x, i) => (
+              <g key={`candle-${i}`}>
+                {/* Candle body */}
+                <rect x={x-4} y="20" width="8" height="35" rx="2" fill="url(#candle)" />
+                <rect x={x-3} y="22" width="3" height="30" fill="#fef9c3" opacity="0.5"/>
+                {/* Wick */}
+                <rect x={x-1} y="12" width="2" height="10" fill="#374151"/>
+                
+                {/* Flame or smoke */}
+                {candlesLit ? (
+                  <g filter="url(#glow)">
+                    <ellipse cx={x} cy="8" rx="5" ry="10" fill="url(#flame)" className="animate-flicker" style={{animationDelay: `${i * 0.1}s`}}>
+                      <animate attributeName="ry" values="10;12;9;11;10" dur="0.3s" repeatCount="indefinite"/>
+                      <animate attributeName="rx" values="5;4;6;5;5" dur="0.4s" repeatCount="indefinite"/>
+                    </ellipse>
+                    <ellipse cx={x} cy="5" rx="2" ry="4" fill="#fff" opacity="0.8"/>
+                    {/* Glow effect */}
+                    <ellipse cx={x} cy="8" rx="12" ry="15" fill="#fbbf24" opacity="0.3"/>
+                  </g>
+                ) : (
+                  <g className="animate-smoke">
+                    <path d={`M${x} 10 Q${x+5} 0 ${x} -5 Q${x-5} -10 ${x} -15`} stroke="#9ca3af" strokeWidth="2" fill="none" opacity="0.5"/>
+                  </g>
+                )}
+              </g>
+            ))}
+            
+            {/* "Happy Birthday" text on cake */}
+            <text x="150" y="150" textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold" fontFamily="Dancing Script, cursive" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.3)'}}>
+              Happy Birthday Adu!
+            </text>
+            
+            {/* Decorative roses */}
+            <g transform="translate(75, 100) scale(0.5)">
+              <circle cx="0" cy="0" r="10" fill="#fb7185"/>
+              <circle cx="-5" cy="-3" r="6" fill="#fda4af"/>
+              <circle cx="4" cy="-2" r="5" fill="#fecdd3"/>
+            </g>
+            <g transform="translate(225, 100) scale(0.5)">
+              <circle cx="0" cy="0" r="10" fill="#fb7185"/>
+              <circle cx="-5" cy="-3" r="6" fill="#fda4af"/>
+              <circle cx="4" cy="-2" r="5" fill="#fecdd3"/>
+            </g>
+          </svg>
+
+          <div className="mt-8 text-center">
+            {candlesLit && !showWish && (
+              <div>
+                <p className="text-white text-2xl mb-6 font-dancing animate-pulse" style={{ textShadow: '0 0 20px rgba(255,255,255,0.5)' }}>
+                  ✨ Close your eyes & make a wish, Adu! ✨
+                </p>
+                <button
+                  onClick={handleBlow}
+                  disabled={isBlowing}
+                  className="px-10 py-5 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 text-white rounded-full text-xl font-bold hover:from-amber-500 hover:via-orange-600 hover:to-red-600 transition-all transform hover:scale-110 animate-bounce"
+                  style={{ 
+                    boxShadow: '0 0 40px rgba(251, 191, 36, 0.6), 0 10px 30px rgba(0,0,0,0.3)',
+                    textShadow: '1px 1px 2px rgba(0,0,0,0.3)'
+                  }}
+                >
+                  {isBlowing ? '💨 Blowing...' : '🎂 Blow the Candles! 🎂'}
+                </button>
+                {isBlowing && (
+                  <div className="mt-6 w-56 mx-auto bg-white/20 rounded-full h-4 overflow-hidden backdrop-blur-sm">
+                    <div 
+                      className="h-full bg-gradient-to-r from-yellow-400 to-orange-500 transition-all duration-100 rounded-full"
+                      style={{ width: `${blowProgress}%` }}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {showWish && (
+              <div className="animate-fade-in-up">
+                <div className="text-7xl mb-6 animate-heartbeat">💕</div>
+                <p className="text-white text-4xl font-bold mb-3 font-dancing" style={{ textShadow: '0 0 30px rgba(255,255,255,0.5)' }}>
+                  Happy Birthday Adu!
+                </p>
+                <p className="text-rose-200 text-xl mb-6">May all your wishes come true, my love!</p>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-3 h-3 bg-rose-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                  <div className="w-3 h-3 bg-rose-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                  <div className="w-3 h-3 bg-rose-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                </div>
+                <p className="text-rose-300 text-lg mt-4">Loading your surprise...</p>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    // Envelope Component
+    const LoveEnvelope = ({ isOpen, onClick, children }) => {
+      return (
+        <div 
+          className="relative cursor-pointer transition-all duration-700"
+          onClick={onClick}
+          style={{ perspective: '1000px' }}
+        >
+          <div 
+            className="relative bg-gradient-to-br from-rose-200 to-pink-300 rounded-xl shadow-2xl overflow-visible"
+            style={{ 
+              width: '360px', 
+              minHeight: isOpen ? 'auto' : '220px',
+              transition: 'all 0.7s ease'
+            }}
+          >
+            <div 
+              className="absolute top-0 left-0 right-0 bg-gradient-to-br from-rose-300 to-pink-400 origin-top z-20"
+              style={{
+                height: '80px',
+                clipPath: 'polygon(0 0, 50% 100%, 100% 0)',
+                transform: isOpen ? 'rotateX(180deg)' : 'rotateX(0deg)',
+                transition: 'transform 0.7s ease',
+                transformStyle: 'preserve-3d'
+              }}
+            />
+            
+            {!isOpen && (
+              <div className="absolute top-8 left-1/2 -translate-x-1/2 text-4xl animate-pulse z-30">
+                💝
+              </div>
+            )}
+            
+            <div 
+              className="relative bg-white/95 mx-3 mb-3 rounded-lg shadow-inner"
+              style={{ 
+                marginTop: '90px',
+                padding: isOpen ? '24px' : '0px',
+                maxHeight: isOpen ? '600px' : '0px',
+                opacity: isOpen ? 1 : 0,
+                overflow: isOpen ? 'visible' : 'hidden',
+                transition: 'all 0.5s ease 0.3s'
+              }}
+            >
+              {children}
+            </div>
+            
+            {!isOpen && (
+              <div className="absolute bottom-6 left-0 right-0 text-center">
+                <p className="text-rose-600 font-medium animate-bounce">
+                  Click to open my heart 💌
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    // Surprise Card Component
+    const SurpriseCard = ({ title, content, icon, delay }) => {
+      const [isRevealed, setIsRevealed] = useState(false);
+      
+      return (
+        <div 
+          className="relative w-72 h-80 cursor-pointer"
+          onClick={() => setIsRevealed(!isRevealed)}
+          style={{ 
+            perspective: '1000px',
+            animationDelay: `${delay}ms` 
+          }}
+        >
+          <div 
+            className="relative w-full h-full transition-all duration-700"
+            style={{
+              transformStyle: 'preserve-3d',
+              transform: isRevealed ? 'rotateY(180deg)' : 'rotateY(0deg)'
+            }}
+          >
+            <div 
+              className="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-100 to-rose-200 rounded-2xl shadow-xl flex flex-col items-center justify-center p-6 border-2 border-rose-200"
+              style={{ backfaceVisibility: 'hidden' }}
+            >
+              <span className="text-6xl mb-4 animate-bounce">{icon}</span>
+              <p className="text-rose-500 font-semibold text-lg text-center">{title}</p>
+              <p className="text-rose-400 text-sm mt-2 animate-pulse">Tap to reveal ✨</p>
+            </div>
+            <div 
+              className="absolute inset-0 bg-gradient-to-br from-pink-200 via-rose-100 to-pink-200 rounded-2xl shadow-xl flex items-center justify-center p-6 border-2 border-pink-300"
+              style={{ 
+                backfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg)'
+              }}
+            >
+              <p className="text-rose-700 text-center leading-relaxed font-cormorant">
+                {content}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Timeline Component
+    const Timeline = () => {
+      const milestones = [
+        { year: '2014', event: 'Where it all began 💫', detail: 'July 2014 - When Shivu found his Adu' },
+        { year: '2016', event: 'Two hearts, one soul 💕', detail: '2 years of love & endless memories' },
+        { year: '2019', event: 'Our First Trip Together 🌟', detail: 'The most unforgettable journey!' },
+        { year: '2022', event: 'Growing stronger 💪', detail: '8 years - Unbreakable bond' },
+        { year: '2026', event: '11 years of magic ✨', detail: 'And forever more to come...' }
+      ];
+
+      return (
+        <div className="relative py-8">
+          <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-rose-300 via-pink-400 to-rose-300 transform -translate-x-1/2" />
+          {milestones.map((milestone, index) => (
+            <div 
+              key={index}
+              className={`relative flex items-center mb-12 animate-fade-in-up ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+              style={{ animationDelay: `${index * 200}ms` }}
+            >
+              <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
+                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-rose-100 hover:scale-105 transition-transform">
+                  <span className="text-2xl font-bold text-rose-500">{milestone.year}</span>
+                  <h4 className="text-lg font-semibold text-rose-600 mt-1">{milestone.event}</h4>
+                  <p className="text-rose-400 text-sm mt-1">{milestone.detail}</p>
+                </div>
+              </div>
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-rose-400 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                <span className="text-white text-xs">💗</span>
+              </div>
+              <div className="w-5/12" />
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    // Video Gallery Component
+    const VideoGallery = () => {
+      const videos = [
+        { 
+          id: 1, 
+          src: './video1.mp4',
+          title: 'Our Beautiful First Trip 💕',
+          description: 'The most unforgettable journey together'
+        },
+        { 
+          id: 2, 
+          src: './video2.mp4',
+          title: 'Memories That Last Forever 🌟',
+          description: 'Every moment with you is precious'
+        }
+      ];
+
+      return (
+        <div className="w-full max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {videos.map((video, index) => (
+              <div 
+                key={video.id}
+                className="relative group animate-fade-in-up rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-rose-100 to-pink-100 p-2"
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <div className="relative rounded-xl overflow-hidden">
+                  <video
+                    src={video.src}
+                    controls
+                    className="w-full h-64 object-cover rounded-xl"
+                    preload="metadata"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-rose-600/90 to-transparent p-4 pointer-events-none">
+                    <h4 className="text-white font-bold text-lg">{video.title}</h4>
+                    <p className="text-white/80 text-sm">{video.description}</p>
+                  </div>
+                </div>
+                <div className="text-center mt-3 pb-2">
+                  <span className="text-rose-500 text-sm font-medium">🎬 Press play to relive our memories</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-8 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+            <p className="text-rose-600 text-lg font-cormorant" style={{ fontSize: '1.2rem' }}>
+              "Our first trip together was the most beautiful and unforgettable journey of my life. Not because of where we went, but because you were there with me, Adu."
+            </p>
+            <p className="text-rose-400 mt-2 italic">- Your Shivu 💕</p>
+          </div>
+        </div>
+      );
+    };
+
+    // AI Message Generator Component
+    const AIMessageGenerator = () => {
+      const [message, setMessage] = useState('');
+      const [loading, setLoading] = useState(false);
+      const [category, setCategory] = useState('romantic');
+
+      const generateMessage = async () => {
+        setLoading(true);
+        setMessage('');
+        
+        const fallbacks = {
+          romantic: "Adu, in the story of my life, you're the most beautiful chapter. 11 years and my heart still skips a beat when I see you. Happy Birthday to my forever! - Shivu 💕",
+          funny: "11 years and you still haven't figured out you're way out of my league, Adu! Lucky me! Happy Birthday, gorgeous! - Shivu 😄💕",
+          promise: "Adu, I promise to love you more with each passing year, to be your strength when you're weak, and to always be your biggest fan. Forever yours! - Shivu 💍"
+        };
+        
+        // Simulate loading then show fallback
+        setTimeout(() => {
+          setMessage(fallbacks[category]);
+          setLoading(false);
+        }, 1500);
+      };
+
+      return (
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-rose-100 max-w-md mx-auto">
+          <h3 className="text-xl font-bold text-rose-600 mb-4 text-center font-playfair">
+            ✨ Infinite Love Messages ✨
+          </h3>
+          <p className="text-rose-400 text-sm text-center mb-4">Generate unique messages just for you, Adu!</p>
+          <div className="flex gap-2 justify-center mb-4 flex-wrap">
+            {['romantic', 'funny', 'promise'].map(cat => (
+              <button
+                key={cat}
+                onClick={() => setCategory(cat)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  category === cat 
+                    ? 'bg-rose-500 text-white shadow-lg' 
+                    : 'bg-rose-100 text-rose-500 hover:bg-rose-200'
+                }`}
+              >
+                {cat === 'romantic' ? '💕 Romantic' : cat === 'funny' ? '😄 Sweet & Funny' : '💍 Promise'}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={generateMessage}
+            disabled={loading}
+            className="w-full py-3 bg-gradient-to-r from-rose-400 to-pink-500 text-white rounded-xl font-semibold hover:from-rose-500 hover:to-pink-600 transition-all shadow-lg disabled:opacity-50"
+          >
+            {loading ? '✨ Creating magic...' : '💝 Generate Love Message'}
+          </button>
+          {message && (
+            <div className="mt-4 p-4 bg-rose-50 rounded-xl border border-rose-200 animate-fade-in">
+              <p className="text-rose-700 text-center italic leading-relaxed font-cormorant" style={{ fontSize: '1.1rem' }}>
+                "{message}"
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // Confetti Component
+    const Confetti = () => {
+      const confettiPieces = Array.from({ length: 150 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 3,
+        color: ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#ff85a2'][Math.floor(Math.random() * 7)],
+        rotation: Math.random() * 360,
+        size: 8 + Math.random() * 8
+      }));
+
+      return (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          {confettiPieces.map(piece => (
+            <div
+              key={piece.id}
+              className="absolute animate-confetti"
+              style={{
+                left: `${piece.left}%`,
+                top: '-20px',
+                animationDelay: `${piece.delay}s`,
+                backgroundColor: piece.color,
+                width: `${piece.size}px`,
+                height: `${piece.size}px`,
+                transform: `rotate(${piece.rotation}deg)`,
+                borderRadius: Math.random() > 0.5 ? '50%' : '0'
+              }}
+            />
+          ))}
+        </div>
+      );
+    };
+
+    // Main Birthday Component
+    function BirthdaySurprise() {
+      const [currentSection, setCurrentSection] = useState(0);
+      const [envelopeOpen, setEnvelopeOpen] = useState(false);
+      const [showConfetti, setShowConfetti] = useState(false);
+      const [showMainContent, setShowMainContent] = useState(false);
+
+      const sections = ['welcome', 'letter', 'journey', 'memories', 'surprises', 'message', 'finale'];
+
+      useEffect(() => {
+        if (currentSection === 6) {
+          setShowConfetti(true);
+        }
+      }, [currentSection]);
+
+      const handleCandlesBlown = () => {
+        setShowConfetti(true);
+        setTimeout(() => {
+          setShowConfetti(false);
+          setShowMainContent(true);
+        }, 3000);
+      };
+
+      const nextSection = () => {
+        if (currentSection < sections.length - 1) {
+          setCurrentSection(prev => prev + 1);
+        }
+      };
+
+      const prevSection = () => {
+        if (currentSection > 0) {
+          setCurrentSection(prev => prev - 1);
+        }
+      };
+
+      // Cake Landing Screen
+      if (!showMainContent) {
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-rose-900 flex flex-col items-center justify-center relative overflow-hidden">
+            {showConfetti && <Confetti />}
+            
+            {/* Stars Background */}
+            {Array.from({ length: 80 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full animate-twinkle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  width: `${2 + Math.random() * 3}px`,
+                  height: `${2 + Math.random() * 3}px`,
+                  backgroundColor: ['#fff', '#ffd700', '#ff69b4', '#87ceeb'][Math.floor(Math.random() * 4)],
+                  animationDelay: `${Math.random() * 3}s`
+                }}
+              />
+            ))}
+            
+            {/* Floating Hearts */}
+            {Array.from({ length: 15 }).map((_, i) => (
+              <div
+                key={`heart-${i}`}
+                className="absolute text-2xl animate-float opacity-60"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 2}s`,
+                  animationDuration: `${3 + Math.random() * 2}s`
+                }}
+              >
+                💕
+              </div>
+            ))}
+            
+            {/* Main Content */}
+            <div className="text-center z-10 px-4">
+              <div className="mb-8 animate-fade-in-up">
+                <p className="text-rose-300 text-xl mb-2">A Special Day for</p>
+                <h1 
+                  className="text-5xl md:text-7xl text-white font-bold mb-2 font-dancing"
+                  style={{ textShadow: '0 0 30px rgba(255, 105, 180, 0.8)' }}
+                >
+                  My Adu 💕
+                </h1>
+                <p className="text-rose-200 text-lg">1st February 2026</p>
+              </div>
+              
+              <div className="animate-float" style={{ animationDuration: '4s' }}>
+                <BirthdayCake onBlowCandles={handleCandlesBlown} />
+              </div>
+              
+              <div className="mt-8 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+                <p className="text-rose-300 text-lg italic">With all my love</p>
+                <p className="text-white text-2xl font-bold font-dancing">
+                  - Your Shivu 💝
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 relative overflow-x-hidden">
+          <FloatingHearts />
+          <Sparkles />
+          {showConfetti && <Confetti />}
+          
+          {/* Navigation Dots */}
+          <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3">
+            {sections.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSection(index)}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  currentSection === index 
+                    ? 'bg-rose-500 scale-125 shadow-lg' 
+                    : 'bg-rose-200 hover:bg-rose-300'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Section 0: Welcome */}
+          {currentSection === 0 && (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 animate-fade-in-up">
+              <div className="text-8xl mb-6 animate-heartbeat">💝</div>
+              <h1 className="text-5xl md:text-7xl font-bold gradient-text text-center mb-4 font-playfair">
+                Happy Birthday Adu
+              </h1>
+              <p className="text-2xl md:text-3xl text-rose-400 mb-2 font-dancing">
+                My Beautiful Love 💕
+              </p>
+              <p className="text-rose-500 text-lg mb-8">1st February 2026</p>
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl max-w-lg text-center mb-8">
+                <p className="text-rose-600 text-lg leading-relaxed font-cormorant" style={{ fontSize: '1.2rem' }}>
+                  "Adu, life without you is impossible to imagine... You're not just special on your birthday, you make every single day special for me. Today is YOUR day, and I want you to know how much you mean to me."
+                </p>
+                <p className="text-rose-400 mt-3 italic">- Your Shivu 💕</p>
+              </div>
+              <button 
+                onClick={nextSection}
+                className="px-8 py-4 bg-gradient-to-r from-rose-400 to-pink-500 text-white rounded-full text-lg font-semibold hover:from-rose-500 hover:to-pink-600 transition-all shadow-xl animate-glow"
+              >
+                Begin Our Journey 💕
+              </button>
+            </div>
+          )}
+
+          {/* Section 1: Love Letter */}
+          {currentSection === 1 && (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 animate-fade-in-up">
+              <h2 className="text-3xl md:text-4xl font-bold text-rose-600 mb-8 text-center font-playfair">
+                A Letter From My Heart 💌
+              </h2>
+              <LoveEnvelope isOpen={envelopeOpen} onClick={() => setEnvelopeOpen(!envelopeOpen)}>
+                <div className="text-rose-700 leading-relaxed font-cormorant" style={{ fontSize: '1.05rem' }}>
+                  <p className="mb-3 font-semibold text-lg">My Dearest Adu,</p>
+                  <p className="mb-3">
+                    11 years... can you believe it? July 2014 mein start hua ye journey aur aaj bhi it feels just as beautiful as day one. You gave colors to my world, you gave meaning to my life.
+                  </p>
+                  <p className="mb-3">
+                    Adu, you're not just my girlfriend - you're my best friend, my partner in crime, my strength. Every difficult time, you stood by me. Every happy moment, you were the reason behind it.
+                  </p>
+                  <p className="mb-3">
+                    Remember our first trip together? That was the most unforgettable and beautiful journey of my life - not because of the place, but because you were there with me.
+                  </p>
+                  <p className="mb-3">
+                    On your birthday, I want you to know - you are the best thing that ever happened to me. You're not just love for me, you're my whole world.
+                  </p>
+                  <p className="text-right italic mt-4 text-rose-500">Forever and always yours,<br/>Shivu ❤️</p>
+                </div>
+              </LoveEnvelope>
+              <div className="flex gap-4 mt-8">
+                <button onClick={prevSection} className="px-6 py-3 bg-white text-rose-500 rounded-full font-medium hover:bg-rose-50 transition-all shadow-lg">
+                  ← Back
+                </button>
+                <button onClick={nextSection} className="px-6 py-3 bg-gradient-to-r from-rose-400 to-pink-500 text-white rounded-full font-medium hover:from-rose-500 hover:to-pink-600 transition-all shadow-lg">
+                  Our Journey →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Section 2: Journey Timeline */}
+          {currentSection === 2 && (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16 animate-fade-in-up">
+              <h2 className="text-3xl md:text-4xl font-bold text-rose-600 mb-4 text-center font-playfair">
+                Our Beautiful Journey 💕
+              </h2>
+              <p className="text-rose-400 mb-8 text-center font-dancing" style={{ fontSize: '1.5rem' }}>
+                11 Years of Love, Laughter & Forever
+              </p>
+              <div className="max-w-3xl w-full">
+                <Timeline />
+              </div>
+              <div className="flex gap-4 mt-8">
+                <button onClick={prevSection} className="px-6 py-3 bg-white text-rose-500 rounded-full font-medium hover:bg-rose-50 transition-all shadow-lg">
+                  ← Back
+                </button>
+                <button onClick={nextSection} className="px-6 py-3 bg-gradient-to-r from-rose-400 to-pink-500 text-white rounded-full font-medium hover:from-rose-500 hover:to-pink-600 transition-all shadow-lg">
+                  Our Memories →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Section 3: Video Memories */}
+          {currentSection === 3 && (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16 animate-fade-in-up">
+              <h2 className="text-3xl md:text-4xl font-bold text-rose-600 mb-4 text-center font-playfair">
+                Our Most Unforgettable Moments 🎬
+              </h2>
+              <p className="text-rose-400 mb-8 text-center max-w-lg font-dancing" style={{ fontSize: '1.5rem' }}>
+                Our beautiful first trip together... the memories we'll cherish forever
+              </p>
+              <VideoGallery />
+              <div className="flex gap-4 mt-8">
+                <button onClick={prevSection} className="px-6 py-3 bg-white text-rose-500 rounded-full font-medium hover:bg-rose-50 transition-all shadow-lg">
+                  ← Back
+                </button>
+                <button onClick={nextSection} className="px-6 py-3 bg-gradient-to-r from-rose-400 to-pink-500 text-white rounded-full font-medium hover:from-rose-500 hover:to-pink-600 transition-all shadow-lg">
+                  More Surprises →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Section 4: Surprise Cards */}
+          {currentSection === 4 && (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16 animate-fade-in-up">
+              <h2 className="text-3xl md:text-4xl font-bold text-rose-600 mb-4 text-center font-playfair">
+                Tap to Reveal Surprises 🎁
+              </h2>
+              <p className="text-rose-400 mb-8 text-center">Each card holds something special from Shivu...</p>
+              <div className="flex flex-wrap justify-center gap-6 max-w-4xl">
+                <SurpriseCard 
+                  title="Why I Love You"
+                  icon="💖"
+                  content="Your smile makes my whole day better. Your care, your understanding - everything about you is perfect. You make me want to be a better person every single day. - Shivu"
+                  delay={0}
+                />
+                <SurpriseCard 
+                  title="Our First Trip"
+                  icon="✈️"
+                  content="That first trip together was magical, Adu. Not because of where we went, but because every moment with you felt like a dream. That journey changed my life forever."
+                  delay={200}
+                />
+                <SurpriseCard 
+                  title="My Promise"
+                  icon="💍"
+                  content="I promise - I'll always be there for you, in every difficult time, in every happy moment. You're everything to me, and you always will be. - Your Shivu"
+                  delay={400}
+                />
+              </div>
+              <div className="flex gap-4 mt-8">
+                <button onClick={prevSection} className="px-6 py-3 bg-white text-rose-500 rounded-full font-medium hover:bg-rose-50 transition-all shadow-lg">
+                  ← Back
+                </button>
+                <button onClick={nextSection} className="px-6 py-3 bg-gradient-to-r from-rose-400 to-pink-500 text-white rounded-full font-medium hover:from-rose-500 hover:to-pink-600 transition-all shadow-lg">
+                  Special Messages →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Section 5: AI Message Generator */}
+          {currentSection === 5 && (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16 animate-fade-in-up">
+              <h2 className="text-3xl md:text-4xl font-bold text-rose-600 mb-4 text-center font-playfair">
+                Infinite Love Messages 💝
+              </h2>
+              <p className="text-rose-400 mb-8 text-center max-w-md">
+                Click the button to generate unique love messages just for you, Adu...
+              </p>
+              <AIMessageGenerator />
+              <div className="flex gap-4 mt-8">
+                <button onClick={prevSection} className="px-6 py-3 bg-white text-rose-500 rounded-full font-medium hover:bg-rose-50 transition-all shadow-lg">
+                  ← Back
+                </button>
+                <button onClick={nextSection} className="px-6 py-3 bg-gradient-to-r from-rose-400 to-pink-500 text-white rounded-full font-medium hover:from-rose-500 hover:to-pink-600 transition-all shadow-lg">
+                  Final Surprise →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Section 6: Finale */}
+          {currentSection === 6 && (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16 animate-fade-in-up">
+              <div className="text-9xl mb-6 animate-heartbeat">💕</div>
+              <h2 className="text-4xl md:text-6xl font-bold gradient-text mb-4 text-center font-playfair">
+                Happy 11 Years of Us!
+              </h2>
+              <p className="text-2xl text-rose-400 mb-8 text-center font-dancing">
+                Shivu & Adu - Forever and Always
+              </p>
+              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl max-w-2xl text-center border-2 border-rose-200 animate-glow">
+                <p className="text-rose-700 text-xl leading-relaxed mb-6 font-cormorant">
+                  "Adu, meri jaan, today is your special day. These 11 years we've lived together - every laugh, every tear, every challenge, every victory.
+                </p>
+                <p className="text-rose-700 text-xl leading-relaxed mb-6 font-cormorant">
+                  From our most unforgettable first trip to every beautiful moment since then - you've made my life a dream come true.
+                </p>
+                <p className="text-rose-700 text-xl leading-relaxed mb-6 font-cormorant">
+                  You're not just love for me... you're my life. Without you, I'm incomplete. I LOVE YOU ADU, more than words can ever express.
+                </p>
+                <p className="text-rose-600 text-3xl font-bold font-dancing">
+                  Happy Birthday, Adu Meri Jaan! 💕
+                </p>
+                <p className="text-rose-500 mt-4">
+                  Here's to the next 11 years... and forever after that! 🥂
+                </p>
+                <p className="text-rose-400 mt-4 italic text-lg">- Forever yours, Shivu</p>
+              </div>
+              <div className="flex flex-wrap justify-center gap-4 mt-8">
+                <button onClick={prevSection} className="px-6 py-3 bg-white text-rose-500 rounded-full font-medium hover:bg-rose-50 transition-all shadow-lg">
+                  ← Back
+                </button>
+                <button 
+                  onClick={() => setCurrentSection(0)} 
+                  className="px-6 py-3 bg-gradient-to-r from-rose-400 to-pink-500 text-white rounded-full font-medium hover:from-rose-500 hover:to-pink-600 transition-all shadow-lg"
+                >
+                  Experience Again 💕
+                </button>
+              </div>
+              <div className="mt-8 flex gap-6 text-4xl">
+                <span className="animate-bounce" style={{ animationDelay: '0ms' }}>🎈</span>
+                <span className="animate-bounce" style={{ animationDelay: '100ms' }}>💕</span>
+                <span className="animate-bounce" style={{ animationDelay: '200ms' }}>✨</span>
+                <span className="animate-bounce" style={{ animationDelay: '300ms' }}>🎁</span>
+                <span className="animate-bounce" style={{ animationDelay: '400ms' }}>💝</span>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<BirthdaySurprise />);
+  </script>
+</body>
+</html>
