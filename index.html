@@ -16,19 +16,32 @@
   </audio>
   
   <script>
-    // Global music controller
+    // Global music controller - MOBILE FRIENDLY
     window.bgMusicController = {
       music: null,
-      isUserInteracted: false,
+      isUnlocked: false,
       
       init: function() {
         this.music = document.getElementById('bgMusic');
-        this.music.volume = 0.5; // 50% volume
+        this.music.volume = 0.5;
+      },
+      
+      // This MUST be called directly from user tap/click event
+      unlockAndPlay: function() {
+        if (this.music && !this.isUnlocked) {
+          // For iOS - need to play first then we can control it
+          this.music.play().then(() => {
+            this.isUnlocked = true;
+            console.log('Audio unlocked and playing!');
+          }).catch(e => {
+            console.log('Audio unlock failed:', e);
+          });
+        }
       },
       
       play: function() {
-        if (this.music && this.isUserInteracted) {
-          this.music.play().catch(e => console.log('Audio play prevented'));
+        if (this.music && this.isUnlocked) {
+          this.music.play().catch(e => console.log('Play failed'));
         }
       },
       
@@ -36,52 +49,14 @@
         if (this.music) {
           this.music.pause();
         }
-      },
-      
-      startOnInteraction: function() {
-        if (!this.isUserInteracted) {
-          this.isUserInteracted = true;
-          this.play();
-        }
       }
     };
     
-    // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', function() {
       window.bgMusicController.init();
-      
-      // Start music on first user interaction (required by browsers)
-      document.addEventListener('click', function() {
-        window.bgMusicController.startOnInteraction();
-      }, { once: false });
-      
-      document.addEventListener('touchstart', function() {
-        window.bgMusicController.startOnInteraction();
-      }, { once: false });
     });
     
-    // Setup video observers after React renders
-    function setupVideoObservers() {
-      const videos = document.querySelectorAll('video');
-      videos.forEach(video => {
-        // When video starts playing - pause background music
-        video.addEventListener('play', function() {
-          window.bgMusicController.pause();
-        });
-        
-        // When video is paused - resume background music
-        video.addEventListener('pause', function() {
-          window.bgMusicController.play();
-        });
-        
-        // When video ends - resume background music
-        video.addEventListener('ended', function() {
-          window.bgMusicController.play();
-        });
-      });
-    }
-    
-    // Check for videos periodically (since React renders them dynamically)
+    // Setup video observers
     setInterval(function() {
       const videos = document.querySelectorAll('video');
       videos.forEach(video => {
@@ -794,6 +769,7 @@
       const [envelopeOpen, setEnvelopeOpen] = useState(false);
       const [showConfetti, setShowConfetti] = useState(false);
       const [showMainContent, setShowMainContent] = useState(false);
+      const [showIntro, setShowIntro] = useState(true); // NEW: Intro screen state
 
       const sections = ['welcome', 'letter', 'journey', 'memories', 'surprises', 'message', 'finale'];
 
@@ -822,6 +798,88 @@
           setCurrentSection(prev => prev - 1);
         }
       };
+      
+      // NEW: Handle intro tap - unlocks audio on mobile
+      const handleIntroTap = () => {
+        // This directly triggers audio - required for mobile!
+        if (window.bgMusicController) {
+          window.bgMusicController.unlockAndPlay();
+        }
+        setShowIntro(false);
+      };
+
+      // NEW: Beautiful Intro Screen
+      if (showIntro) {
+        return (
+          <div 
+            className="min-h-screen bg-gradient-to-br from-rose-900 via-pink-800 to-purple-900 flex flex-col items-center justify-center relative overflow-hidden cursor-pointer"
+            onClick={handleIntroTap}
+            onTouchStart={handleIntroTap}
+          >
+            {/* Animated Stars */}
+            {Array.from({ length: 100 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full animate-twinkle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  width: `${1 + Math.random() * 3}px`,
+                  height: `${1 + Math.random() * 3}px`,
+                  backgroundColor: '#fff',
+                  animationDelay: `${Math.random() * 3}s`
+                }}
+              />
+            ))}
+            
+            {/* Floating Hearts */}
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div
+                key={`h-${i}`}
+                className="absolute text-2xl animate-float opacity-40"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 3}s`,
+                  animationDuration: `${3 + Math.random() * 2}s`
+                }}
+              >
+                💕
+              </div>
+            ))}
+            
+            <div className="text-center z-10 px-6">
+              {/* Gift Box Animation */}
+              <div className="text-8xl mb-8 animate-bounce">
+                🎁
+              </div>
+              
+              <p className="text-rose-300 text-xl mb-3">A Special Surprise</p>
+              
+              <h1 className="text-4xl md:text-6xl text-white font-bold mb-4 font-dancing" style={{ textShadow: '0 0 30px rgba(255,105,180,0.8)' }}>
+                For You, Adu 💕
+              </h1>
+              
+              <p className="text-rose-200 text-lg mb-8">From Your Shivu</p>
+              
+              {/* Tap Button */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-white/30 rounded-full blur-xl animate-pulse"></div>
+                <div 
+                  className="relative px-10 py-5 bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 text-white rounded-full text-xl font-bold shadow-2xl animate-pulse"
+                  style={{ boxShadow: '0 0 40px rgba(244,114,182,0.6)' }}
+                >
+                  🎵 Tap to Open 🎵
+                </div>
+              </div>
+              
+              <p className="text-rose-300/70 text-sm mt-6 animate-pulse">
+                👆 Tap anywhere to start with music
+              </p>
+            </div>
+          </div>
+        );
+      }
 
       // Cake Landing Screen
       if (!showMainContent) {
